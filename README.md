@@ -14,12 +14,12 @@ electron.mk (/usr/ports/Mk/Uses/electron.mk)
 get `electron.mk` here: https://github.com/tagattie/FreeBSD-Electron/tree/master/Mk/Uses
 
 ### Download:
-you can download DiscordBSD from the releases: https://github.com/SrWither/DiscordBSD/releases/
+you can download DiscordBSD from the releases: https://github.com/XaeroVincent/DiscordBSD/releases/
 
 ### Build and install:
 clone the repository:
 ```
-git clone https://github.com/SrWither/DiscordBSD
+git clone https://github.com/XaeroVincent/DiscordBSD
 ```
 
 first you need to run the `build.sh` script.
@@ -29,32 +29,32 @@ if everything compiled without errors, run the `install.sh` script.
 
 # Preview
 ### Overview and custom titlebar
-![image](https://github.com/SrWither/DiscordBSD/assets/59105868/d4934fc8-e169-4e6c-8a1e-01b1f90dc203)
+![image](https://github.com/XaeroVincent/DiscordBSD/assets/59105868/d4934fc8-e169-4e6c-8a1e-01b1f90dc203)
 _the color scheme is from discord nitro_
 
 #### You can customize the titlebar
-![imagen](https://github.com/SrWither/DiscordBSD/assets/59105868/9dd33845-58cf-4a85-9ae9-55ddc8ddfd5e)
+![imagen](https://github.com/XaeroVincent/DiscordBSD/assets/59105868/9dd33845-58cf-4a85-9ae9-55ddc8ddfd5e)
 
 ### System tray
-![image](https://github.com/SrWither/DiscordBSD/assets/59105868/dcd3c999-4321-452c-bb8d-1ed7aadfa620)
+![image](https://github.com/XaeroVincent/DiscordBSD/assets/59105868/dcd3c999-4321-452c-bb8d-1ed7aadfa620)
 
 _if you click on the icon, it will focus on the window_
 
 ### Discord Rich Presence
-![image](https://github.com/SrWither/DiscordBSD/assets/59105868/7f097273-7e21-4e66-b1f0-5cd33768b397)
+![image](https://github.com/XaeroVincent/DiscordBSD/assets/59105868/7f097273-7e21-4e66-b1f0-5cd33768b397)
 
 ### Screenshare
 ![image](https://github.com/user-attachments/assets/4e68a537-47a9-44ba-b118-0c4d5b16b423)
 _no sound for now_
 
 ### Desktop Notifications
-![image](https://github.com/SrWither/DiscordBSD/assets/59105868/18fc3cb0-2223-49c4-a1ce-a997e12b3f8c)
+![image](https://github.com/XaeroVincent/DiscordBSD/assets/59105868/18fc3cb0-2223-49c4-a1ce-a997e12b3f8c)
 _you have to activate them there_
 
 ### Splash Screen
 New:
 
-![imagen](https://github.com/SrWither/DiscordBSD/assets/59105868/f5adbbf9-8b52-4afd-9c27-0fe6b6d17095)
+![imagen](https://github.com/XaeroVincent/DiscordBSD/assets/59105868/f5adbbf9-8b52-4afd-9c27-0fe6b6d17095)
 
 Old:
 
