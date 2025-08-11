@@ -14,12 +14,12 @@ electron.mk (/usr/ports/Mk/Uses/electron.mk)
 get `electron.mk` here: https://github.com/tagattie/FreeBSD-Electron/tree/master/Mk/Uses
 
 ### Download:
-you can download DiscordBSD from the releases: https://github.com/SrWither/DiscordBSD/releases/
+you can download DiscordBSD from the releases: https://github.com/XaeroVincent/DiscordBSD/releases/
 
 ### Build and install:
 clone the repository:
 ```
-git clone https://github.com/SrWither/DiscordBSD
+git clone https://github.com/XaeroVincent/DiscordBSD
 ```
 
 first you need to run the `build.sh` script.
