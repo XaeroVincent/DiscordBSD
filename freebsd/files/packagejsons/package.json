@@ -1,11 +1,11 @@
 {
   "name": "DiscordBSD",
   "version": "1.0.0",
-  "description": "",
+  "description": "An attempt at a native discord client for FreeBSD.",
   "main": "./build/main.js",
   "scripts": {
     "build": "mkdir -p build && copyfiles -u 1 \"src/titlebar/**/*\" \"build\" && tsc -p .",
-    "run": "electron30 build/main.js",
+    "run": "electron35 build/main.js",
     "postbuild": "copyfiles -u 1 \"src/assets/**/*\" \"build\"",
     "make-app": "npm run build && npm run postbuild && npm run run",
     "clean": "rm -r build/",
@@ -56,14 +56,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@electron-forge/cli": "^7.2.0",
-    "@electron-forge/maker-deb": "^7.2.0",
-    "@electron-forge/maker-squirrel": "^7.2.0",
-    "@electron-forge/maker-zip": "^7.2.0",
-    "@types/node": "^20.9.2",
+    "@electron-forge/cli": "^7.8.3",
+    "@electron-forge/maker-deb": "^7.8.3",
+    "@electron-forge/maker-squirrel": "^7.8.3",
+    "@electron-forge/maker-zip": "^7.8.3",
+    "@types/node": "^22.17.1",
     "copyfiles": "^2.4.1",
-    "electron-builder": "24.4.0",
-    "typescript": "^5.2.2",
-    "electron": "30.4.0"
+    "electron-builder": "26.0.12",
+    "typescript": "^5.9.2",
+    "electron": "35.7.2"
   }
 }
