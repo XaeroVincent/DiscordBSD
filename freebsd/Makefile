@@ -1,16 +1,16 @@
 PORTNAME=	discordbsd
 CATEGORIES=	net-im
 
-MAINTAINER=	fjachuf@gmail.com
+MAINTAINER=	tmp386@live.com
 COMMENT=	An attempt at a native discord client for FreeBSD
 
 LICENSE=	BSD3CLAUSE
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-USES=		electron:35 nodejs:22,build
+USES=		electron:37 nodejs:22,build
 
 USE_GITHUB=	yes
-GH_ACCOUNT=	SrWither
+GH_ACCOUNT=	XaeroVincent
 GH_PROJECT=	DiscordBSD
 GH_TAGNAME=	main
 
@@ -18,7 +18,7 @@ SUB_FILES=	${PORTNAME}
 
 USE_ELECTRON=	npm:npm prefetch extract rebuild:electron build:forge
 
-PREFETCH_TIMESTAMP=	1713712594
+PREFETCH_TIMESTAMP=
 # ELECTRON_MAKE_FLAGS+=	--config electron-builder.yaml
 
 pre-build:
