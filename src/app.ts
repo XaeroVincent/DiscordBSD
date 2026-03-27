@@ -33,7 +33,7 @@ export class MainApp {
   constructor(app: Electron.App) {
     this.app = app;
     this.userAgent = `Mozilla/5.0 (X11; ${os.type
-      } ${os.arch()}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36`;
+      } ${os.arch()}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36`;
     this.icons = {
       main: path.join(__dirname, "assets/icons/main.png"),
       tray: path.join(__dirname, "assets/icons/tray.png"),
