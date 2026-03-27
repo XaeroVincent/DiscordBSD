@@ -1,5 +1,5 @@
-TIMESTAMP = 1765312103
-SHA256 (discordbsd--node-modules.tar.gz) = ebb95e2ae094ff46a11d0da8ff0952181dfdcb854b9c9c7e69ede13b15ff43e2
-SIZE (discordbsd--node-modules.tar.gz) = 104526128
-SHA256 (XaeroVincent-DiscordBSD--main_GH0.tar.gz) = 045fe3f8186bd4cf99802863470af17b125c0393185a7fe772c503855f6d2f56
-SIZE (XaeroVincent-DiscordBSD--main_GH0.tar.gz) = 651883
+TIMESTAMP = 1774580218
+SHA256 (discordbsd--node-modules.tar.gz) = 6c548253b1944eacf5d46f2b8c9ddb3c1f5159121560e0d9218a51cfb063e3d7
+SIZE (discordbsd--node-modules.tar.gz) = 104533090
+SHA256 (XaeroVincent-DiscordBSD--main_GH0.tar.gz) = 4a9101163f3111791665b952b5de726b2b8c2eb6b7583dd9022abce7c41b420d
+SIZE (XaeroVincent-DiscordBSD--main_GH0.tar.gz) = 712591

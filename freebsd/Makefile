@@ -7,7 +7,7 @@ COMMENT=	An attempt at a native discord client for FreeBSD
 LICENSE=	BSD3CLAUSE
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-USES=		electron:37 nodejs:24,build
+USES=		electron:39 nodejs:25,build
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	XaeroVincent
