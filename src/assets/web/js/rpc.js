@@ -1,66 +1,144 @@
 (() => {
-  let Dispatcher, lookupAsset, lookupApp, apps = {};
+let Dispatcher, lookupAsset, lookupApp, apps = {};
 
-  const ws = new WebSocket('ws://127.0.0.1:1337'); // connect to arRPC bridge websocket
-  ws.onmessage = async x => {
-    msg = JSON.parse(x.data);
+const eachCandidate = (mod, fn) => {
+  if (!mod) return;
 
+  try { fn(mod); } catch {}
+  try { if (mod.default) fn(mod.default); } catch {}
+  try {
+    for (const key of Reflect.ownKeys(mod)) {
+      try { fn(mod[key]); } catch {}
+    }
+  } catch {}
+};
+
+const getWebpackRequire = () => {
+  const reqs = [];
+  const seen = new Set();
+
+  window.webpackChunkdiscord_app.push([[ Symbol() ], {}, req => {
+    if (req && !seen.has(req)) {
+      seen.add(req);
+      reqs.push(req);
+    }
+  }]);
+  window.webpackChunkdiscord_app.pop();
+
+  const hasSource = (req, ...needles) => {
+    for (const id in req?.m) {
+      let source;
+      try {
+        source = req.m[id]?.toString?.();
+      } catch {
+        continue;
+      }
+
+      if (source && needles.every(needle => source.includes(needle))) return true;
+    }
+    return false;
+  };
+
+  return reqs.find(req =>
+    hasSource(req, 'getAssetImage: size must === [') &&
+    hasSource(req, 'Invalid Origin', 'coverImage', '.application')
+  ) || reqs.at(-1);
+};
+
+const findModule = (wpRequire, ...needles) => {
+  for (const id in wpRequire.m) {
+    let source;
+    try {
+      source = wpRequire.m[id]?.toString?.();
+    } catch {
+      continue;
+    }
+
+    if (!source || !needles.every(needle => source.includes(needle))) continue;
+
+    try {
+      return wpRequire(id);
+    } catch {}
+  }
+};
+
+const findInCache = (wpRequire, test, depth = 4) => {
+  const seen = new WeakSet();
+  let found;
+
+  const walk = (value, remainingDepth) => {
+    if (found || !value || (typeof value !== 'object' && typeof value !== 'function')) return;
+    if (value === window || value === document || value === globalThis) return;
+    if (seen.has(value)) return;
+    seen.add(value);
+
+    try {
+      if (test(value)) {
+        found = value;
+        return;
+      }
+    } catch {}
+
+    if (!remainingDepth) return;
+    eachCandidate(value, candidate => walk(candidate, remainingDepth - 1));
+  };
+
+  for (const id in wpRequire.c) {
+    const mod = wpRequire.c[id]?.exports;
+    if (!mod) continue;
+
+    walk(mod, depth);
+    if (found) return found;
+  }
+};
+
+const ws = new WebSocket('ws://127.0.0.1:1337'); // connect to arRPC bridge websocket
+ws.onmessage = async x => {
+  const msg = JSON.parse(x.data);
+
+  try {
     if (!Dispatcher) {
-      let wpRequire;
-      window.webpackChunkdiscord_app.push([[Symbol()], {}, x => wpRequire = x]);
-      window.webpackChunkdiscord_app.pop();
+      const wpRequire = getWebpackRequire();
 
-      const modules = wpRequire.c;
+      Dispatcher = findInCache(wpRequire, candidate =>
+        candidate &&
+        typeof candidate.dispatch === 'function' &&
+        typeof candidate.subscribe === 'function'
+      );
 
-      for (const id in modules) {
-        const mod = modules[id].exports;
-
-        for (const prop in mod) {
-          const candidate = mod[prop];
-          try {
-            if (candidate && candidate.register && candidate.wait) {
-              Dispatcher = candidate;
-              break;
-            }
-          } catch {
-            continue;
+      const assetMod = findModule(wpRequire, 'getAssetImage: size must === [');
+      eachCandidate(assetMod, candidate => {
+        if (!lookupAsset && typeof candidate === 'function') {
+          const str = candidate.toString();
+          if (str.includes('APPLICATION_ASSETS_FETCH_SUCCESS') &&
+            str.includes('startsWith("http:")')) {
+            lookupAsset = async (appId, name) => (await candidate(appId, [ name ]))[0];
           }
         }
+      });
 
-        if (Dispatcher) break;
-      }
-
-      const factories = wpRequire.m;
-      for (const id in factories) {
-        if (factories[id].toString().includes('getAssetImage: size must === [number, number] for Twitch')) {
-          const mod = wpRequire(id);
-
-          // fetchAssetIds
-          const _lookupAsset = Object.values(mod).find(e => typeof e === 'function' && e.toString().includes('APPLICATION_ASSETS_FETCH_SUCCESS'));
-          if (_lookupAsset) lookupAsset = async (appId, name) => (await _lookupAsset(appId, [name, undefined]))[0];
+      const appMod = findModule(wpRequire, 'Invalid Origin', 'coverImage', '.application');
+      eachCandidate(appMod, candidate => {
+        if (!lookupApp && typeof candidate === 'function') {
+          const str = candidate.toString();
+          if (str.includes('Invalid Origin') &&
+            str.includes('coverImage') &&
+            str.includes('.application')) {
+            lookupApp = async appId => {
+              const socket = {};
+              await candidate(socket, appId);
+              return socket.application;
+            };
+          }
         }
+      });
 
-        if (lookupAsset) break;
-      }
-
-      for (const id in factories) {
-        if (factories[id].toString().includes('APPLICATION_RPC(')) {
-          const mod = wpRequire(id);
-
-          // fetchApplicationsRPC
-          const _lookupApp = Object.values(mod).find(e => {
-            if (typeof e !== 'function') return;
-            const str = e.toString();
-            return str.includes(',coverImage:') && str.includes('INVALID_ORIGIN');
-          });
-          if (_lookupApp) lookupApp = async appId => {
-            let socket = {};
-            await _lookupApp(socket, appId);
-            return socket.application;
-          };
-        }
-
-        if (lookupApp) break;
+      if (!Dispatcher || !lookupAsset || !lookupApp) {
+        throw new Error(`Failed to find Discord internals for arRPC bridge (${[
+          !Dispatcher && 'Dispatcher',
+          !lookupAsset && 'lookupAsset',
+          !lookupApp && 'lookupApp'
+        ].filter(Boolean).join(', ')})`);
       }
     }
 
@@ -76,5 +154,8 @@
     }
 
     Dispatcher.dispatch({ type: 'LOCAL_ACTIVITY_UPDATE', ...msg }); // set RPC status
-  };
+  } catch (err) {
+    console.error('[arRPC bridge mod] Failed to handle message', err);
+  }
+};
 })();
