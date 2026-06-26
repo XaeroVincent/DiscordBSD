@@ -4,7 +4,7 @@ An attempt at a native discord client for FreeBSD.
 ### Build Dependencies:
 ```
 pkg install app-builder
-pkg install electron39
+pkg install electron40
 pkg install node25
 pkg install npm-node25
 pkg install zip
