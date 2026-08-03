@@ -7,7 +7,7 @@ COMMENT=	An attempt at a native discord client for FreeBSD
 LICENSE=	BSD3CLAUSE
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-USES=		electron:40 nodejs:25,build
+USES=		npm:npm,extract electron:42 nodejs:24,build
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	XaeroVincent
@@ -16,7 +16,7 @@ GH_TAGNAME=	main
 
 SUB_FILES=	${PORTNAME}
 
-USE_ELECTRON=	npm:npm prefetch extract rebuild:electron build:forge
+USE_ELECTRON=	rebuild:electron build:forge
 
 PREFETCH_TIMESTAMP=
 # ELECTRON_MAKE_FLAGS+=	--config electron-builder.yaml

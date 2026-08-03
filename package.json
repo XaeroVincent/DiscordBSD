@@ -5,7 +5,7 @@
   "main": "./build/main.js",
   "scripts": {
     "build": "mkdir -p build && copyfiles -u 1 \"src/titlebar/**/*\" \"build\" && tsc -p .",
-    "run": "electron39 build/main.js",
+    "run": "electron42 build/main.js",
     "postbuild": "copyfiles -u 1 \"src/assets/**/*\" \"build\"",
     "make-app": "npm run build && npm run postbuild && npm run run",
     "clean": "rm -r build/",
@@ -61,10 +61,15 @@
     "@electron-forge/maker-deb": "^7.8.3",
     "@electron-forge/maker-squirrel": "^7.8.3",
     "@electron-forge/maker-zip": "^7.8.3",
-    "@types/node": "^25.9.0",
+    "@types/node": "^26.1.2",
     "copyfiles": "^1.0.0",
-    "electron": "40.9.3",
-    "electron-builder": "^26.8.1",
+    "electron": "42.7.1",
+    "electron-builder": "^25.1.8",
     "typescript": "^5.9.2"
+  },
+  "allowScripts": {
+    "electron@42.7.1": true,
+    "electron-winstaller@5.4.0": true,
+    "electron-winstaller@5.4.4": true
   }
 }
